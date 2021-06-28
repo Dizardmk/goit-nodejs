@@ -1,0 +1,28 @@
+{
+  "name": "goit-nodejs",
+  "version": "1.0.0",
+  "description": "nodejs homework",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dizardmk/goit-nodejs.git"
+  },
+  "keywords": [],
+  "author": "Kirill Miklashevich <Dizardmk@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dizardmk/goit-nodejs/issues"
+  },
+  "homepage": "https://github.com/Dizardmk/goit-nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "commander": "^8.0.0",
+    "shortid": "^2.2.16"
+  }
+}
