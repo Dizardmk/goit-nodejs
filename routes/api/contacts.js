@@ -7,6 +7,7 @@ const {
   addContact,
   updateContact,
 } = require('../../model');
+const contactsSchema = require('../../utils/validate/contacts');
 
 // @ GET /api/contacts
 router.get('/', async (_, res, next) => {
@@ -94,18 +95,36 @@ router.delete('/:contactId', async (req, res, next) => {
 });
 
 // @ PUT /api/contacts/:contactId
-router.patch('/:contactId', async (req, res, next) => {
+router.put('/:contactId', async (req, res, next) => {
   try {
-    const { contactId } = req.params;
-    const { body } = req;
-    const contacts = await updateContact(contactId, body);
-    return res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        result: contacts,
-      },
-    });
+    const {
+      body,
+      params: { contactId },
+    } = req;
+    console.log(body);
+    if (Object.keys(body).length === 0) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Missing fields',
+      });
+    }
+
+    console.log('this updateContact');
+    const updatedContact = await updateContact(contactId, body);
+    return updatedContact === -1
+      ? res.status(404).json({
+          status: 'error',
+          code: 404,
+          message: 'Not found',
+        })
+      : res.json({
+          status: 'success',
+          code: 200,
+          data: {
+            result: updatedContact,
+          },
+        });
   } catch (error) {
     next(error);
   }

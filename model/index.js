@@ -30,9 +30,17 @@ async function removeContact(contactId) {
 }
 
 // UPDATE CONTACT
-const updateContact = async (contactId, body) => {};
+const updateContact = async (contactId, body) => {
+  const contacts = await listContacts();
+  const contactIndex = contacts.findIndex(({ id }) => id === contactId);
+  if (contactIndex === -1) return contactIndex;
 
-// UPDATE CONTACTS
+  contacts[contactIndex] = { ...contacts[contactIndex], ...body };
+  await updateContacts([...contacts]);
+  return contacts[contactIndex];
+};
+
+// UPDATE CONTACTS.JSON
 async function updateContacts(contacts) {
   try {
     return await fs.writeFile(contactsPath, JSON.stringify(contacts));
