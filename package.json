@@ -1,18 +1,20 @@
 {
-  "name": "template",
-  "version": "0.0.0",
+  "name": "goit-nodejs-hw-rest-api",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./bin/server.js",
-    "dev": "cross-env NODE_ENV=development nodemon ./bin/server.js",
+    "start:start": "cross-env NODE_ENV=production node ./bin/server.js",
+    "start": "cross-env NODE_ENV=development nodemon ./bin/server.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
   "dependencies": {
     "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "dotenv": "^10.0.0",
     "express": "4.17.1",
     "joi": "^17.4.0",
+    "mongoose": "^5.13.2",
     "morgan": "1.10.0",
     "shortid": "^2.2.16"
   },
