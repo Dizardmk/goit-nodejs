@@ -1,2 +1,0 @@
-# goit-nodejs
-nodejs homework
