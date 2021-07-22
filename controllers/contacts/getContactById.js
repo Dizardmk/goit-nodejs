@@ -1,26 +1,30 @@
-const contact = require('../../models/contactModel');
+const { contacts: service } = require('../../services');
 
-module.exports = async ({ params: { contactId } }, res, _) => {
+module.exports = async ({ params: { contactId } }, res, next) => {
   try {
-    const result = await contact.findById(contactId);
+    const result = await service.getContactById(contactId);
 
-    // при несуществующем ID иногда приходит null с "code": 200.
-    if (!result) {
-      throw Error;
-    }
-
-    res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        result,
-      },
-    });
+    return result
+      ? res.json({
+          status: 'Success',
+          code: 200,
+          data: {
+            result,
+          },
+        })
+      : res.status(404).json({
+          status: 'Not Found',
+          code: 404,
+          message: 'contact with such id not found',
+        });
   } catch (error) {
-    res.status(404).json({
-      status: 'not found',
-      code: 404,
-      message: 'Contact with such ID not found',
-    });
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return res.status(404).json({
+        status: 'Not Found',
+        code: 404,
+        message: 'contact with such id not found',
+      });
+    }
+    next(error);
   }
 };

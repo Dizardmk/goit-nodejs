@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const contactsApi = require('./api/contactsApi');
+const api = require('./api');
 
 const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -9,7 +9,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(cors());
 
-app.use('/api/contacts', contactsApi);
+app.use('/api/contacts', api.contacts);
 
 app.use((_, res) => {
   res.status(404).json({

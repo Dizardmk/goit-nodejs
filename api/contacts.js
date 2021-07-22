@@ -21,8 +21,8 @@ router.post('/', express.json(), addContact);
 // @ DELETE /api/contacts/:contactId
 router.delete('/:contactId', removeContact);
 
-// @ POST /api/contacts/:contactId
-router.post('/:contactId', express.json(), updateContact);
+// @ PUT /api/contacts/:contactId
+router.put('/:contactId', express.json(), updateContact);
 
 // @ PATCH /api/contacts/:contactId/favorite
 router.patch('/:contactId/favorite', express.json(), favoriteContact);
