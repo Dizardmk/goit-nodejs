@@ -8,16 +8,15 @@ mongoose
   .connect(DB_HOST, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: false,
   })
   .then(() => {
     app.listen(PORT, () => {
-      console.log(
-        `### Database connection successful! Server running. Use our API on port: ${PORT}`,
-      );
+      console.log(`\x1b[32m[mongodb] connected to port ${PORT}`);
     });
   })
   .catch(error => {
-    console.log(error);
+    console.log(`\x1b[31m[mongodb] ${error}`);
     return process.exit(1);
   });
