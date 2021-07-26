@@ -18,20 +18,6 @@ module.exports = async ({ body, params: { contactId } }, res, next) => {
           message: 'contact with such id not found',
         });
   } catch (error) {
-    if (error.message.includes('Cast to ObjectId failed')) {
-      return res.status(404).json({
-        status: 'Not Found',
-        code: 404,
-        message: 'contact with such id not found',
-      });
-    }
-    if (error.message.includes('is required')) {
-      return res.status(400).json({
-        status: 'Bad Request',
-        code: 400,
-        message: 'missing required field: favorite',
-      });
-    }
     next(error);
   }
 };

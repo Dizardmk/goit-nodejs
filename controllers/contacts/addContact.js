@@ -12,13 +12,6 @@ module.exports = async ({ body }, res, next) => {
       },
     });
   } catch (error) {
-    if (error.message.includes('is required')) {
-      return res.status(400).json({
-        status: 'Bad Request',
-        code: 400,
-        message: 'missing required field: name, email or phone',
-      });
-    }
     next(error);
   }
 };

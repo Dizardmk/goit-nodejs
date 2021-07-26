@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate } = require('../middlewares');
+const authenticate = require('../middlewares/authenticate');
 const { current, signup, login, logout } = require('../controllers/users');
 
 // @ GET /api/users/current

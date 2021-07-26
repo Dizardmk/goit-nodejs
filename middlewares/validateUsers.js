@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
-module.exports = Joi.object({
-  name: Joi.string().alphanum().min(2).max(40).required(),
+const schemaRegisterUser = Joi.object({
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -11,5 +10,12 @@ module.exports = Joi.object({
       /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
     )
     .required(),
-  phone: Joi.string().min(10).max(20).required(),
+  password: Joi.string()
+    .pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/)
+    .required(),
+  subscription: Joi.any()
+    .valid('starter', 'pro', 'business')
+    .default('starter'),
 });
+
+module.exports = {};

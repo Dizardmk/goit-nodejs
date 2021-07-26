@@ -23,6 +23,7 @@ module.exports = async ({ params: { contactId } }, res, next) => {
         message: 'contact with such id not found',
       });
     }
+
     next(error);
   }
 };
