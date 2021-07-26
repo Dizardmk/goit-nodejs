@@ -1,38 +1,37 @@
-const contact = require('../../models/contactModel');
+const { contacts: service } = require('../../services');
 
-module.exports = async ({ body, params: { contactId } }, res, _) => {
+module.exports = async ({ body, params: { contactId } }, res, next) => {
   try {
-    const result = await contact.findByIdAndUpdate(contactId, body);
+    const result = await service.favoriteContact(contactId, body);
 
-    // contactId
-    if (!result) {
-      throw Error;
-    }
-
-    // body
-    if (Object.keys(body).length === 0) {
-      throw new Error('400');
-    }
-
-    // message, т.к в result не приходит обновленный контакт.
-    res.json({
-      status: 'success',
-      code: 200,
-      message: 'Favorite succesfully updated',
-    });
+    return result
+      ? res.json({
+          status: 'Success',
+          code: 200,
+          data: {
+            result,
+          },
+        })
+      : res.status(404).json({
+          status: 'Not Found',
+          code: 404,
+          message: 'contact with such id not found',
+        });
   } catch (error) {
-    if (error.message === '400') {
-      return res.status(400).json({
-        status: 'bad request',
-        code: 400,
-        message: 'Missing field favorite',
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return res.status(404).json({
+        status: 'Not Found',
+        code: 404,
+        message: 'contact with such id not found',
       });
     }
-
-    res.status(404).json({
-      status: 'not found',
-      code: 404,
-      message: 'Contact with such ID not found',
-    });
+    if (error.message.includes('is required')) {
+      return res.status(400).json({
+        status: 'Bad Request',
+        code: 400,
+        message: 'missing required field: favorite',
+      });
+    }
+    next(error);
   }
 };
