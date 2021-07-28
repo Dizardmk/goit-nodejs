@@ -1,5 +1,6 @@
 const Joi = require('joi');
 
+// SCHEMA \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const schemaRegisterUser = Joi.object({
   email: Joi.string()
     .email({
@@ -18,4 +19,22 @@ const schemaRegisterUser = Joi.object({
     .default('starter'),
 });
 
-module.exports = {};
+// VALIDATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+const checkError = (schema, { body }, res, next) => {
+  const { error } = schema.validate(body);
+
+  if (error) {
+    return res.status(400).json({
+      status: 'Bad Request',
+      code: 400,
+      message: error.message.replace(/"/g, ''),
+    });
+  }
+
+  next();
+};
+
+module.exports = {
+  validateRegisterUser: (req, res, next) =>
+    checkError(schemaRegisterUser, req, res, next),
+};
