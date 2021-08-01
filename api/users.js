@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate, validateUsers: validate } = require('../middlewares');
+const {
+  authenticate,
+  uploadAvatars,
+  validateUsers: validate,
+} = require('../middlewares');
 const { users: ctrl } = require('../controllers');
 
 router
@@ -17,6 +21,12 @@ router
   .post('/logout', authenticate, ctrl.logout)
 
   // @ PATCH /api/users/avatars
-  .patch('/avatars', authenticate, express.json(), ctrl.updateAvatar);
+  .patch(
+    '/avatars',
+    authenticate,
+    express.json(),
+    uploadAvatars,
+    ctrl.updateAvatar,
+  );
 
 module.exports = router;
