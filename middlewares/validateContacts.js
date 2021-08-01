@@ -33,7 +33,7 @@ const schemaFavoriteContact = Joi.object({
 });
 
 // VALIDATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-const checkError = (schema, { body }, res, next) => {
+const validator = (schema, { body }, res, next) => {
   const { error } = schema.validate(body);
 
   if (error) {
@@ -48,10 +48,9 @@ const checkError = (schema, { body }, res, next) => {
 };
 
 module.exports = {
-  validateAddContact: (req, res, next) =>
-    checkError(schemaAddContact, req, res, next),
-  validateUpdateContact: (req, res, next) =>
-    checkError(schemaUpdateContact, req, res, next),
-  validateFavoriteContact: (req, res, next) =>
-    checkError(schemaFavoriteContact, req, res, next),
+  addContact: (req, res, next) => validator(schemaAddContact, req, res, next),
+  updateContact: (req, res, next) =>
+    validator(schemaUpdateContact, req, res, next),
+  favoriteContact: (req, res, next) =>
+    validator(schemaFavoriteContact, req, res, next),
 };

@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
-const { validateRegisterUser } = require('../middlewares/validateUsers');
-const { current, signup, login, logout } = require('../controllers/users');
+const { authenticate, validateUsers: validate } = require('../middlewares');
+const { users: ctrl } = require('../controllers');
 
-// @ GET /api/users/current
-router.get('/current', authenticate, current);
+router
+  // @ GET /api/users/current
+  .get('/current', authenticate, ctrl.current)
 
-// @ POST /api/users/signup
-router.post('/signup', express.json(), validateRegisterUser, signup);
+  // @ POST /api/users/signup
+  .post('/signup', express.json(), validate.registerUser, ctrl.signup)
 
-// @ POST /api/users/login
-router.post('/login', express.json(), login);
+  // @ POST /api/users/login
+  .post('/login', express.json(), validate.registerUser, ctrl.login)
 
-// @ POST /api/users/logout
-router.post('/logout', authenticate, logout);
+  // @ POST /api/users/logout
+  .post('/logout', authenticate, ctrl.logout)
+
+  // @ PATCH /api/users/avatars
+  .patch('/avatars', authenticate, express.json(), ctrl.updateAvatar);
 
 module.exports = router;

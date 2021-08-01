@@ -1,10 +1,10 @@
-module.exports = async ({ user: { email, id } }, res, next) => {
+module.exports = async ({ user: { id, email } }, res, next) => {
   try {
     return res.json({
       status: 'Success',
       code: 200,
       data: {
-        result: { email, id },
+        result: { id, email },
       },
     });
   } catch (error) {
