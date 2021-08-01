@@ -1,13 +1,13 @@
 const multer = require('multer');
 const path = require('path');
 
-const tempDir = path.join(process.cwd(), 'public/temp');
+const tmpDir = path.join(process.cwd(), 'tmp');
 
 const storage = multer.diskStorage({
-  destination: (_, __, cb) => {
-    cb(null, tempDir);
+  destination: (req, file, cb) => {
+    cb(null, tmpDir);
   },
-  filename: (_, file, cb) => {
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
   limits: {
@@ -15,8 +15,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({
+const uploadMiddleware = multer({
   storage,
 });
 
-module.exports = upload.single('avatar');
+const upload = uploadMiddleware.single('avatar');
+
+module.exports = upload;

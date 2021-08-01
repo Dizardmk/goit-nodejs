@@ -3,26 +3,29 @@ const path = require('path');
 const Jimp = require('jimp');
 const { users: service } = require('../../services');
 
-module.exports = async (
-  { user: { _id: userId }, file: { path: tempFileName } },
-  res,
-  next,
-) => {
-  const avatarsDir = path.join(process.cwd(), 'public/images/avatars');
+module.exports = async (req, res, next) => {
+  const userId = req.user._id.toString();
+  if (!req.file) {
+    return res.status(400).json({
+      status: 'Error',
+      code: 400,
+      error: 'no file attached',
+    });
+  }
+  const { path: tempFileName } = req.file;
+  const uploadDir = path.join(process.cwd(), 'public/avatars');
 
   try {
-    const avatarURL = path.join(avatarsDir, `${userId}.jpg`);
-    await optimizeImage(tempFileName);
+    const fileName = path.join(uploadDir, `${userId}.jpg`);
+    await imageNormalize(tempFileName);
 
-    const result = await service.updateUser(userId, { avatarURL });
-    await fs.rename(tempFileName, avatarURL);
+    const result = await service.updateUser(userId, { avatarURL: fileName });
+    await fs.rename(tempFileName, fileName);
 
-    return res.json({
+    res.status(200).json({
       status: 'Success',
       code: 200,
-      data: {
-        result,
-      },
+      data: result,
     });
   } catch (error) {
     fs.unlink(tempFileName);
@@ -30,11 +33,11 @@ module.exports = async (
   }
 };
 
-const optimizeImage = image => {
-  Jimp.read(`${image}`, (err, originalImage) => {
+const imageNormalize = imagePath => {
+  Jimp.read(`${imagePath}`, (err, convertedImage) => {
     if (err) {
       throw err;
     }
-    originalImage.resize(250, 250).quality(80).write(`${image}`);
+    convertedImage.resize(250, 250).quality(80).write(`${imagePath}`);
   });
 };

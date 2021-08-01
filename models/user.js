@@ -23,7 +23,16 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
-    avatarURL: String,
+    avatarURL: {
+      type: String,
+      default: function () {
+        return gravatar.url(this.email, {
+          protocol: 'https',
+          size: '250',
+          default: 'retro',
+        });
+      },
+    },
   },
   { versionKey: false },
 );
@@ -34,14 +43,6 @@ userSchema.methods.hashPassword = function (password) {
 
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
-};
-
-userSchema.methods.createAvatar = function (email) {
-  this.avatarURL = gravatar.url(email, {
-    protocol: 'https',
-    size: '250',
-    default: 'retro',
-  });
 };
 
 module.exports = model('user', userSchema);

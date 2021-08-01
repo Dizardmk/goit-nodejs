@@ -11,7 +11,6 @@ module.exports = {
   signup: ({ email, password }) => {
     const newUser = new User({ email });
     newUser.hashPassword(password);
-    newUser.createAvatar(email);
     return newUser.save();
   },
 };
