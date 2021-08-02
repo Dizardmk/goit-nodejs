@@ -6,7 +6,8 @@ module.exports = {
   // get user by id
   getUserById: (userId) => User.findById(userId),
   // update user
-  updateUser: (userId, body) => User.findByIdAndUpdate(userId, body),
+  updateUser: (userId, body) =>
+    User.findByIdAndUpdate(userId, body, { new: true }),
   // signup user
   signup: ({ email, password }) => {
     const newUser = new User({ email });

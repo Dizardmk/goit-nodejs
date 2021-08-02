@@ -1,1 +1,4 @@
-module.exports = { users: require('./users'), contacts: require('./contacts') };
+module.exports = {
+  users: require('./users'),
+  contacts: require('./contacts'),
+};

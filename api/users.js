@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   authenticate,
-  uploadAvatars,
+  multer,
   validateUsers: validate,
 } = require('../middlewares');
 const { users: ctrl } = require('../controllers');
@@ -21,6 +21,6 @@ router
   .post('/logout', authenticate, ctrl.logout)
 
   // @ PATCH /api/users/avatars
-  .patch('/avatars', authenticate, uploadAvatars, ctrl.updateAvatar);
+  .patch('/avatars', authenticate, multer, ctrl.updateAvatar);
 
 module.exports = router;
