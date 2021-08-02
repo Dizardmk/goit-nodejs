@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
   }
 };
 
-const imageNormalize = imagePath => {
+const imageNormalize = (imagePath) => {
   Jimp.read(`${imagePath}`, (err, convertedImage) => {
     if (err) {
       throw err;

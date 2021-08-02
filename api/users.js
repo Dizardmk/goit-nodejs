@@ -21,12 +21,6 @@ router
   .post('/logout', authenticate, ctrl.logout)
 
   // @ PATCH /api/users/avatars
-  .patch(
-    '/avatars',
-    authenticate,
-    express.json(),
-    uploadAvatars,
-    ctrl.updateAvatar,
-  );
+  .patch('/avatars', authenticate, uploadAvatars, ctrl.updateAvatar);
 
 module.exports = router;

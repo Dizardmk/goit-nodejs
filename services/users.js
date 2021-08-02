@@ -2,9 +2,9 @@ const { User } = require('../models');
 
 module.exports = {
   // get user
-  getUser: body => User.findOne(body),
+  getUser: (body) => User.findOne(body),
   // get user by id
-  getUserById: userId => User.findById(userId),
+  getUserById: (userId) => User.findById(userId),
   // update user
   updateUser: (userId, body) => User.findByIdAndUpdate(userId, body),
   // signup user
