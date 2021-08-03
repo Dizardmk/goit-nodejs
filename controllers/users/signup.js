@@ -11,11 +11,16 @@ module.exports = async ({ body: { email, password } }, res, next) => {
       });
     }
 
-    await service.signup({ email, password });
+    const { _id, subscription, avatarURL } = await service.signup({
+      email,
+      password,
+    });
     return res.status(201).json({
       status: 'Created',
       code: 201,
-      massage: 'user created',
+      data: {
+        result: { _id, subscription, email, avatarURL },
+      },
     });
   } catch (error) {
     next(error);

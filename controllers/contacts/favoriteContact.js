@@ -15,9 +15,16 @@ module.exports = async ({ body, params: { contactId } }, res, next) => {
       : res.status(404).json({
           status: 'Not Found',
           code: 404,
-          message: 'contact with such id not found',
+          message: 'no contact found with that id',
         });
   } catch (error) {
+    if (error.message.includes('Cast to ObjectId failed')) {
+      return res.status(404).json({
+        status: 'Not Found',
+        code: 404,
+        message: 'no contact found with that id',
+      });
+    }
     next(error);
   }
 };

@@ -13,10 +13,10 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`\x1b[32m[mongodb] connected to port ${PORT}`);
+      console.log(`\x1b[32m[mongodb] connected to port ${PORT}\x1b[37m`);
     });
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(`\x1b[31m[mongodb] ${error}`);
     return process.exit(1);
   });

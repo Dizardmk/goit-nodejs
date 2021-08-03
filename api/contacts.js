@@ -1,40 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const {
-  validateAddContact,
-  validateUpdateContact,
-  validateFavoriteContact,
-} = require('../middlewares/validateContacts');
-const {
-  listContacts,
-  getContactById,
-  addContact,
-  removeContact,
-  updateContact,
-  favoriteContact,
-} = require('../controllers/contacts');
+const { authenticate, validateContacts: validate } = require('../middlewares');
+const { contacts: ctrl } = require('../controllers');
 
-// @ GET /api/contacts
-router.get('/', listContacts);
+router
+  // @ GET /api/contacts
+  .get('/', authenticate, ctrl.listContacts)
 
-// @ GET /api/contacts/:contactId
-router.get('/:contactId', getContactById);
+  // @ GET /api/contacts/:contactId
+  .get('/:contactId', authenticate, ctrl.getContactById)
 
-// @ POST /api/contacts
-router.post('/', express.json(), validateAddContact, addContact);
+  // @ POST /api/contacts
+  .post('/', authenticate, express.json(), validate.addContact, ctrl.addContact)
 
-// @ DELETE /api/contacts/:contactId
-router.delete('/:contactId', removeContact);
+  // @ DELETE /api/contacts/:contactId
+  .delete('/:contactId', authenticate, ctrl.removeContact)
 
-// @ PUT /api/contacts/:contactId
-router.put('/:contactId', express.json(), validateUpdateContact, updateContact);
+  // @ PUT /api/contacts/:contactId
+  .put(
+    '/:contactId',
+    authenticate,
+    express.json(),
+    validate.updateContact,
+    ctrl.updateContact,
+  )
 
-// @ PATCH /api/contacts/:contactId/favorite
-router.patch(
-  '/:contactId/favorite',
-  express.json(),
-  validateFavoriteContact,
-  favoriteContact,
-);
+  // @ PATCH /api/contacts/:contactId/favorite
+  .patch(
+    '/:contactId/favorite',
+    authenticate,
+    express.json(),
+    validate.favoriteContact,
+    ctrl.favoriteContact,
+  );
 
 module.exports = router;

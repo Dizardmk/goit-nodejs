@@ -20,7 +20,13 @@ module.exports = async ({ body: { email, password } }, res, next) => {
       status: 'Success',
       code: 200,
       data: {
-        result: token,
+        result: {
+          id: user._id,
+          subscription: user.subscription,
+          email: user.email,
+          avatarURL: user.avatarURL,
+          token,
+        },
       },
     });
   } catch (error) {

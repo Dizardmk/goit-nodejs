@@ -20,7 +20,7 @@ const schemaRegisterUser = Joi.object({
 });
 
 // VALIDATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-const checkError = (schema, { body }, res, next) => {
+const validator = (schema, { body }, res, next) => {
   const { error } = schema.validate(body);
 
   if (error) {
@@ -35,6 +35,6 @@ const checkError = (schema, { body }, res, next) => {
 };
 
 module.exports = {
-  validateRegisterUser: (req, res, next) =>
-    checkError(schemaRegisterUser, req, res, next),
+  registerUser: (req, res, next) =>
+    validator(schemaRegisterUser, req, res, next),
 };
