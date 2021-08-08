@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const { authenticate, validateContacts: validate } = require('../middlewares');
 const { contacts: ctrl } = require('../controllers');
 
-router
+module.exports = express
+  .Router()
+
   // @ GET /api/contacts
   .get('/', authenticate, ctrl.listContacts)
 
@@ -11,7 +12,7 @@ router
   .get('/:contactId', authenticate, ctrl.getContactById)
 
   // @ POST /api/contacts
-  .post('/', authenticate, express.json(), validate.addContact, ctrl.addContact)
+  .post('/', express.json(), validate.addContact, authenticate, ctrl.addContact)
 
   // @ DELETE /api/contacts/:contactId
   .delete('/:contactId', authenticate, ctrl.removeContact)
@@ -19,19 +20,17 @@ router
   // @ PUT /api/contacts/:contactId
   .put(
     '/:contactId',
-    authenticate,
     express.json(),
     validate.updateContact,
+    authenticate,
     ctrl.updateContact,
   )
 
   // @ PATCH /api/contacts/:contactId/favorite
   .patch(
     '/:contactId/favorite',
-    authenticate,
     express.json(),
     validate.favoriteContact,
+    authenticate,
     ctrl.favoriteContact,
   );
-
-module.exports = router;

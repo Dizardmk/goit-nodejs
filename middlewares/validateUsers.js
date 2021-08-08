@@ -19,22 +19,33 @@ const schemaRegisterUser = Joi.object({
     .default('starter'),
 });
 
+const schemaVerifyUser = Joi.object({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net', 'org', 'ru', 'ua'] },
+    })
+    .pattern(
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+    )
+    .required(),
+});
+
 // VALIDATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const validator = (schema, { body }, res, next) => {
   const { error } = schema.validate(body);
 
-  if (error) {
-    return res.status(400).json({
-      status: 'Bad Request',
-      code: 400,
-      message: error.message.replace(/"/g, ''),
-    });
-  }
-
-  next();
+  return error
+    ? res.status(400).json({
+        status: 'Bad Request',
+        code: 400,
+        message: error.message.replace(/"/g, ''),
+      })
+    : next();
 };
 
 module.exports = {
   registerUser: (req, res, next) =>
     validator(schemaRegisterUser, req, res, next),
+  verifyUser: (req, res, next) => validator(schemaVerifyUser, req, res, next),
 };

@@ -36,15 +36,13 @@ const schemaFavoriteContact = Joi.object({
 const validator = (schema, { body }, res, next) => {
   const { error } = schema.validate(body);
 
-  if (error) {
-    return res.status(400).json({
-      status: 'Bad Request',
-      code: 400,
-      message: error.message.replace(/"/g, ''),
-    });
-  }
-
-  next();
+  return error
+    ? res.status(400).json({
+        status: 'Bad Request',
+        code: 400,
+        message: error.message.replace(/"/g, ''),
+      })
+    : next();
 };
 
 module.exports = {

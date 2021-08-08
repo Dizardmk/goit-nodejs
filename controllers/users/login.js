@@ -13,6 +13,14 @@ module.exports = async ({ body: { email, password } }, res, next) => {
       });
     }
 
+    if (!user.verify) {
+      return res.status(409).json({
+        status: 'Conflict',
+        code: 409,
+        message: 'user is not verified',
+      });
+    }
+
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
     await service.updateUser(user._id, { token });
 
@@ -22,7 +30,6 @@ module.exports = async ({ body: { email, password } }, res, next) => {
       data: {
         result: {
           id: user._id,
-          subscription: user.subscription,
           email: user.email,
           avatarURL: user.avatarURL,
           token,

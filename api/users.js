@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const {
   authenticate,
   multer,
@@ -7,9 +6,17 @@ const {
 } = require('../middlewares');
 const { users: ctrl } = require('../controllers');
 
-router
+module.exports = express
+  .Router()
+
+  // @ GET /api/users/verify/:verifyToken
+  .get('/verify/:verifyToken', ctrl.verifyToken)
+
   // @ GET /api/users/current
   .get('/current', authenticate, ctrl.current)
+
+  // @ POST /api/users/verify
+  .post('/verify', express.json(), validate.verifyUser, ctrl.verify)
 
   // @ POST /api/users/signup
   .post('/signup', express.json(), validate.registerUser, ctrl.signup)
@@ -21,6 +28,4 @@ router
   .post('/logout', authenticate, ctrl.logout)
 
   // @ PATCH /api/users/avatars
-  .patch('/avatars', authenticate, multer, ctrl.updateAvatar);
-
-module.exports = router;
+  .patch('/avatars', multer, authenticate, ctrl.updateAvatar);

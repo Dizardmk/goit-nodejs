@@ -33,6 +33,14 @@ const userSchema = Schema(
         });
       },
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verifyToken: {
+      type: String,
+      required: [true, 'verify token is required'],
+    },
   },
   { versionKey: false },
 );
