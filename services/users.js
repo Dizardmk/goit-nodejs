@@ -9,8 +9,8 @@ module.exports = {
   updateUser: (userId, body) =>
     User.findByIdAndUpdate(userId, body, { new: true }),
   // signup user
-  signup: ({ email, password }) => {
-    const newUser = new User({ email });
+  signup: ({ password, ...body }) => {
+    const newUser = new User(body);
     newUser.hashPassword(password);
     return newUser.save();
   },

@@ -1,4 +1,6 @@
 module.exports = {
+  verify: require('./verify'),
+  verifyToken: require('./verifyToken'),
   current: require('./current'),
   signup: require('./signup'),
   login: require('./login'),

@@ -23,14 +23,16 @@ module.exports = async (req, res, next) => {
     await optimizeImage(tempFileName);
 
     const { avatarURL } = await service.updateUser(userId, {
-      avatarURL: fileName,
+      avatarURL: `http://localhost:3000/avatars/${userId}.jpg`,
     });
     await fs.rename(tempFileName, fileName);
 
-    res.status(200).json({
+    return res.json({
       status: 'Success',
       code: 200,
-      data: { avatarURL },
+      data: {
+        result: { avatarURL },
+      },
     });
   } catch (error) {
     fs.unlink(tempFileName);

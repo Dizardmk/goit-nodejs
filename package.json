@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon ./config/mongodb.js",
-    "start:start": "cross-env NODE_ENV=production node ./config/mongodb.js",
+    "prod": "cross-env NODE_ENV=production node ./config/mongodb.js",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
@@ -20,6 +20,8 @@
     "mongoose": "^5.13.2",
     "morgan": "1.10.0",
     "multer": "^1.4.2",
+    "nanoid": "^3.1.23",
+    "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
   },
