@@ -2,11 +2,11 @@ const { Contact } = require('../models');
 
 module.exports = {
   // list contact
-  listContacts: () => Contact.find({}),
+  listContacts: (userId) => Contact.find({ owner: userId }),
   // get contact  by id
   getContactById: (contactId) => Contact.findById(contactId),
   // add contact
-  addContact: (body) => Contact.create(body),
+  addContact: (userId, body) => Contact.create({ owner: userId, ...body }),
   // remove contact
   removeContact: (contactId) => Contact.findByIdAndDelete(contactId),
   // update contact

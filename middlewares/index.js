@@ -1,8 +1,7 @@
 module.exports = {
-  multer: require('./multer'),
-  sendMail: require('./sendMail'),
-  ctrlWrapper: require('./ctrlWrapper'),
+  asyncWrapper: require('./asyncWrapper'),
   authenticate: require('./authenticate'),
-  validateUsers: require('./validateUsers'),
+  multer: require('./multer'),
   validateContacts: require('./validateContacts'),
+  validateUsers: require('./validateUsers'),
 };

@@ -35,6 +35,20 @@ const schemaVerifyUser = Joi.object({
 const validator = (schema, { body }, res, next) => {
   const { error } = schema.validate(body);
 
+  if (
+    error &&
+    error.message.includes(
+      '/^((?=\\S*?[A-Z])(?=\\S*?[a-z])(?=\\S*?[0-9]).{6,})\\S$/',
+    )
+  ) {
+    return res.status(400).json({
+      status: 'Bad Request',
+      code: 400,
+      message:
+        'the password should consist of capital and waste letters, numbers and also contain a minimum of 6 characters.',
+    });
+  }
+
   return error
     ? res.status(400).json({
         status: 'Bad Request',
